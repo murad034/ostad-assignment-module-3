@@ -1,0 +1,35 @@
+name: my 3rd assignment using aws cic/cd pipeline
+on:
+  push:
+    branches: [main]
+
+jobs:
+  testJob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run check
+
+      - name: PM2 Install
+        run: npm install pm2 -g
+
+  deployJob:
+    runs-on: ubuntu-latest
+    needs: testJob
+    steps:
+      - name: Start application
+        run: pm2 start src/server.js --name node-app
+
+      - name: PM2 Save
+        run: pm2 save
