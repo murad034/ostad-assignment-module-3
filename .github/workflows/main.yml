@@ -29,7 +29,7 @@ jobs:
     needs: testJob
     steps:
       - name: Start application
-        run: pm2 start src/server.js --name node-app
+        run: pm2 start "./src/server.js" --name node-app
 
       - name: PM2 Save
         run: pm2 save
