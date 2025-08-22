@@ -43,8 +43,8 @@ jobs:
       - name: Display test results
         run: cat artifacts/test-results.txt || true
 
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #   run: npm install
 
       - name: Run the application with PM2
         run: |
