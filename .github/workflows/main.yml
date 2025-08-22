@@ -56,7 +56,7 @@ jobs:
           ls -a
           pm2 status
           # Delete node-app process if it exists
-          pm2 delete node-app || 
+          pm2 delete node-app || true
           # Create a background process name node-app
           pm2 start "npm start" --name="node-app"
 
