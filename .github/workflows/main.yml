@@ -54,6 +54,9 @@ jobs:
       - name: Run the application with PM2
         run: |
           ls -a
+          # Install pm2 globally
+          npm install pm2 -g
+
           pm2 status
           # Delete node-app process if it exists
           pm2 delete node-app || true
