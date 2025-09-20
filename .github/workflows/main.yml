@@ -13,7 +13,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: npm install
@@ -28,7 +28,7 @@ jobs:
           path: test-results.txt
 
   deployJob:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: testJob
     steps:
       - name: Checkout code
@@ -43,19 +43,17 @@ jobs:
       - name: Display test results
         run: cat artifacts/test-results.txt || true
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies 
+      - name: Install dependencies
         run: npm install
 
-      - name: Install PM2
-        run: npm install -g pm2
+      - name: Run the application with PM2
+        run: |
+          ls -a
+          pm2 status
+          # Delete node-app process if it exists
+          pm2 delete node-app || true
+          # Create a background process name node-app
+          pm2 start "npm start" --name="node-app"
 
-      - name: Start application
-        run: pm2 start "./src/server.js" --name node-app
-
-      - name: PM2 Save
-        run: pm2 save
+          # Save the process list
+          pm2 save
